@@ -26,13 +26,13 @@ aws configure
 After this, start R, and:
 
 ```R
-if(!require(devtools)) {
-  install.packages("devtools")
+if(!require(remotes)) {
+  install.packages("remotes")
 }
-devtools::install_github("datacamp/dbconnectr")
 
-install.packages("RMySQL") # for MySQL databases
-install.packages("RPostgres") # for PostgreSQL databases
+remotes::install_github("datacamp/dbconnectr")
+remotes::install_github("r-dbi/RMySQL") # for MySQL databases
+remotes::install_github("r-dbi/RPostgres") # for PostgreSQL databases
 ```
 
 ## How to use

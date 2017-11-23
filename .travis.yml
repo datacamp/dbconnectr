@@ -2,6 +2,11 @@ language: R
 sudo: false
 cache: packages
 r_check_args: --as-cran
+
+r_github_packages:
+  - r-dbi/RMySQL
+  - r-dbi/RPostgres
+
 r:
   - oldrel
   - release
