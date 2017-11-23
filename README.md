@@ -32,7 +32,7 @@ if(!require(devtools)) {
 devtools::install_github("datacamp/dbconnectr")
 
 install.packages("RMySQL") # for MySQL databases
-install.packages("RPostgres") # for RPostgres databases
+install.packages("RPostgres") # for PostgreSQL databases
 ```
 
 ## How to use
