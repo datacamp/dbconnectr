@@ -37,7 +37,7 @@ remotes::install_github("r-dbi/RPostgres") # for PostgreSQL databases
 
 ## How to use
 
-**For security reasons, we only allow DB connections from our VPN. Make sure to be connected when using this module.**
+**For security reasons, we only allow DB connections from our VPN.**
 
 ```R
 library(dbconnectr)
@@ -58,5 +58,5 @@ get_docs("main-app")
 
 ## AWS Parameter Store Structure
 
-See [README of dbconnect-python project](https://github.com/datacamp/dbconnect-python#aws-parameter-store-structure)
+See [README of dbconnect-python project](https://github.com/datacamp/dbconnect-python#aws-parameter-store-structure).
 
