@@ -20,14 +20,35 @@ get_databases <- function() {
 #' @export
 #' @importFrom DBI dbConnect
 create_connection <- function(dbname = "main-app") {
+  creds <- get_creds(dbname)
+  do.call(DBI::dbConnect, creds)
+}
+
+#' Create a connection pool to a database.
+#'
+#' @param dbname character string specifying the database you want to connect to. Use \code{\link{get_databases}} to get a list of available databases.
+#' @export
+#' @importFrom pool dbPool
+create_connection_pool <- function(dbname = "main-app") {
+  creds <- get_creds(dbname)
+  do.call(pool::dbPool, creds)
+}
+
+#' Get credentials from AWS
+#'
+#' @param dbname character string specifying the database you want to get the credentials for. Use \code{\link{get_databases}} to get a list of available databases.
+#'
+#' @return list with credentials for specified database
+#' @export
+get_creds <- function(dbname = "main-app") {
   fields <- c(user = "user", password = "password", host = "endpoint", port = "port", dbname = "database", drv = "type")
   creds <- lapply(fields, function(field) {
     name <- sprintf("/dbconnect/%s/%s", dbname, field)
     get_parameter(name)
   })
-  creds[["port"]] <- as.numeric(creds[["port"]])
-  creds[["drv"]] <- if(creds[["drv"]] == "mysql") RMySQL::MySQL() else RPostgres::Postgres()
-  do.call(DBI::dbConnect, creds)
+  creds[["port"]] <- as.integer(creds[["port"]])
+  creds[["drv"]] <- if (creds[["drv"]] == "mysql") RMySQL::MySQL() else RPostgres::Postgres()
+  creds
 }
 
 #' Open up the documentation of a database
