@@ -2,13 +2,22 @@
 % Please edit documentation in R/dbconnectr.R
 \name{create_connection}
 \alias{create_connection}
-\title{Create a DBI connection to a database.}
+\alias{create_connection_pool}
+\title{Create a DBI or pool connection to a database.}
 \usage{
-create_connection(dbname = "main-app")
+create_connection(dbname = "main-app", cache = FALSE,
+  cache_folder = "~/.datacamp")
+
+create_connection_pool(dbname = "main-app", cache = FALSE,
+  cache_folder = "~/.datacamp")
 }
 \arguments{
 \item{dbname}{character string specifying the database you want to connect to. Use \code{\link{get_databases}} to get a list of available databases.}
+
+\item{cache}{boolean that specifies whether or not to fetch and store the credentials in a local cache.}
+
+\item{cache_folder}{if caching is enabled, where to store and fetch the credentials}
 }
 \description{
-Create a DBI connection to a database.
+Create a DBI or pool connection to a database.
 }
