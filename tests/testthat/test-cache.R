@@ -20,7 +20,7 @@ test_that("get_cached_creds returns NULL if no cache, creds if cache", {
   cache_creds(creds, cache_folder, dbname)
   cached_creds <- get_cached_creds(cache_folder, dbname)
   expect_equal(creds, cached_creds)
-  cached_creds <- get_cached_creds(cache_folder, dbname, ttl_sec = -1)
+  cached_creds <- get_cached_creds(cache_folder, dbname, ttl_sec = -1000)
   expect_true(is.null(cached_creds))
   cleanup()
 })

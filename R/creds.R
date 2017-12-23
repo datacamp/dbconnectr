@@ -13,9 +13,10 @@ get_creds <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.dat
   }
   if (is.null(creds)) {
     creds <- fetch_creds(dbname)
-  }
-  if (cache) {
-    cache_creds(creds, cache_folder, dbname)
+    # only cache when not cached before
+    if (cache) {
+      cache_creds(creds, cache_folder, dbname)
+    }
   }
   return(creds)
 }

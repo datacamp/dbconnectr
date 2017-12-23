@@ -1,24 +1,28 @@
 context("creds")
 
 test_that("get_creds works without caching", {
-  testthat::with_mock(
+  with_mock(
     fetch_creds = function(dbname) creds,
-    expect_equal(get_creds(dbname), creds)
+    expect_equal(get_creds(dbname), creds),
+    .env = "dbconnectr"
   )
-  testthat::with_mock(
+  with_mock(
     fetch_creds = function(dbname) creds2,
-    expect_equal(get_creds(dbname), creds2)
+    expect_equal(get_creds(dbname), creds2),
+    .env = "dbconnectr"
   )
 })
 
 test_that("get_creds works with caching", {
-  testthat::with_mock(
+  with_mock(
     fetch_creds = function(dbname) creds,
-    expect_equal(get_creds(dbname, cache_folder = cache_folder, cache = TRUE), creds)
+    expect_equal(get_creds(dbname, cache_folder = cache_folder, cache = TRUE), creds),
+    .env = "dbconnectr"
   )
-  testthat::with_mock(
+  with_mock(
     fetch_creds = function(dbname) creds2,
-    expect_equal(get_creds(dbname, cache_folder = cache_folder, cache = TRUE), creds)
+    expect_equal(get_creds(dbname, cache_folder = cache_folder, cache = TRUE), creds),
+    .env = "dbconnectr"
   )
   cleanup()
 })
