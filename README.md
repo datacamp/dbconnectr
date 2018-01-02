@@ -56,6 +56,18 @@ dbListTables(conn)
 get_docs("main-app")
 ```
 
+To avoid the (time costly) fetching of credentials to AWS every time, `dbconnectr` allows you to cache the credentials on your local machine:
+
+```R
+library(dbconnectr)
+
+# First time is slow
+conn <- create_connection("main-app", cache = TRUE)
+
+# Second time is fast
+conn <- create_connection("main-app", cache = TRUE)
+```
+
 ## AWS Parameter Store Structure
 
 See [README of dbconnect-python project](https://github.com/datacamp/dbconnect-python#aws-parameter-store-structure).
