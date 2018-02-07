@@ -31,6 +31,15 @@ fetch_creds <- function(dbname = "main-app") {
 
 transform_creds <- function(creds) {
   creds[["port"]] <- as.integer(creds[["port"]])
-  creds[["drv"]] <- if (creds[["drv"]] == "mysql") RMySQL::MySQL() else RPostgres::Postgres()
+  drv <- switch(creds[["drv"]],
+                mysql = RMySQL::MySQL(),
+                postgresql = RPostgres::Postgres(),
+                odbc = odbc::odbc(),
+                NULL)
+
+  if (is.null(drv)) {
+    stop("Unknown driver:", drv)
+  }
+  creds[["drv"]] <- drv
   creds
 }
