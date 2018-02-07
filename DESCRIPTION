@@ -19,6 +19,7 @@ Suggests:
     testthat,
     knitr,
     RMySQL,
-    RPostgres
+    RPostgres,
+    odbc
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
