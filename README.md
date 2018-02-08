@@ -68,6 +68,28 @@ conn <- create_connection("main-app", cache = TRUE)
 conn <- create_connection("main-app", cache = TRUE)
 ```
 
+## Use in RStudio
+
+The `aws` executable will not be found when you're working in RStudio (because the `PATH` is not properly set). To fix this, open up a terminal to find out the location of the `aws` executable:
+
+```bash
+$ which aws
+/Library/Frameworks/Python.framework/Versions/3.6/bin
+```
+
+Next, create a file `~/.Renviron` that adds this `bin` folder to the `PATH`, e.g.:
+
+```bash
+PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+```
+
+_Note that the exact location of the `aws` executable can be different on your system, depending on how you installed the AWS CLI._ Now, if you start RStudio and your R session initializes, the folder that contains the `aws` executable will be in your `PATH`, and you should be able to call `aws` commands:
+
+```
+> system2("aws", args = "--version")
+aws-cli/1.14.32 Python/3.6.4 Darwin/17.3.0 botocore/1.8.36
+```
+
 ## AWS Parameter Store Structure
 
 See [README of dbconnect-python project](https://github.com/datacamp/dbconnect-python#aws-parameter-store-structure).
