@@ -14,7 +14,8 @@ Imports:
     DBI,
     jsonlite,
     pool,
-    yaml
+    yaml,
+    stringr
 Suggests:
     testthat,
     knitr,
