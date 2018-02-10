@@ -28,7 +28,7 @@ fetch_creds <- function(dbname = "main-app") {
   if (stringr::str_detect(dbname, "athena")) {
     fields <- c(fields, s3_staging = "s3-staging")
   } else {
-    fields <- c(fields, database = "database")
+    fields <- c(fields, dbname = "database")
   }
 
   creds <- lapply(fields, function(field) {
