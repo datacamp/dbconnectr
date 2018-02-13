@@ -49,8 +49,12 @@ transform_creds <- function(creds) {
                   S3OutputLocation = creds[["s3_staging"]])
   }
 
+  if (creds[["drv"]] == "mysql") {
+    creds[["username"]] <- creds[["user"]]
+  }
+
   drv <- switch(creds[["drv"]],
-                mysql = RMySQL::MySQL(),
+                mysql = RMariaDB::MariaDB(),
                 postgresql = RPostgres::Postgres(),
                 awsathena = odbc::odbc(),
                 NULL)

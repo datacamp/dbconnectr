@@ -1,7 +1,7 @@
 Package: dbconnectr
 Type: Package
 Title: Fetch credentials on the fly as you connect to databases
-Version: 0.0.3
+Version: 0.0.4
 Author: Dieter De Mesmaeker
 Maintainer: Filip Schouwenaars <filip@datacamp.com>
 URL: http://www.datacamp.com
@@ -15,12 +15,12 @@ Imports:
     jsonlite,
     pool,
     yaml,
-    stringr
-Suggests:
-    testthat,
-    knitr,
-    RMySQL,
+    stringr,
+    RMariaDB,
     RPostgres,
     odbc
+Suggests:
+    testthat,
+    knitr
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
