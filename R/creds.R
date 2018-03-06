@@ -56,6 +56,7 @@ transform_creds <- function(creds) {
   drv <- switch(creds[["drv"]],
                 mysql = RMariaDB::MariaDB(),
                 postgresql = RPostgres::Postgres(),
+                redshift = RPostgres::Postgres(),
                 awsathena = odbc::odbc(),
                 NULL)
 
