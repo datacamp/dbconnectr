@@ -22,7 +22,15 @@ get_creds <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.dat
 }
 
 fetch_creds <- function(dbname = "main-app") {
-  fields <- c(user = "user", password = "password", host = "endpoint", port = "port", dbname = "database", drv = "type")
+  # athena needs a different set of parameters
+  # May be worth having a database-level parameter that lists all the parameters
+  fields <- c(user = "user", password = "password", host = "endpoint", port = "port", drv = "type")
+  if (stringr::str_detect(dbname, "athena")) {
+    fields <- c(fields, s3_staging = "s3-staging")
+  } else {
+    fields <- c(fields, dbname = "database")
+  }
+
   creds <- lapply(fields, function(field) {
     name <- sprintf("/dbconnect/%s/%s", dbname, field)
     get_parameter(name)
@@ -31,15 +39,31 @@ fetch_creds <- function(dbname = "main-app") {
 
 transform_creds <- function(creds) {
   creds[["port"]] <- as.integer(creds[["port"]])
+
+  if (creds[["drv"]] == "awsathena") {
+    creds <- list(drv = creds[["drv"]],
+                  driver = "Simba Athena ODBC Driver",
+                  UID = creds[["user"]],
+                  PWD = creds[["password"]],
+                  AwsRegion = stringr::str_split(creds[["host"]], "\\.")[[1]][2],
+                  S3OutputLocation = creds[["s3_staging"]])
+  }
+
+  if (creds[["drv"]] == "mysql") {
+    creds[["username"]] <- creds[["user"]]
+  }
+
   drv <- switch(creds[["drv"]],
-                mysql = RMySQL::MySQL(),
+                mysql = RMariaDB::MariaDB(),
                 postgresql = RPostgres::Postgres(),
-                odbc = odbc::odbc(),
+                redshift = RPostgres::Postgres(),
+                awsathena = odbc::odbc(),
                 NULL)
 
   if (is.null(drv)) {
     stop("Unknown driver:", drv)
   }
+
   creds[["drv"]] <- drv
   creds
 }
