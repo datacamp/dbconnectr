@@ -9,9 +9,10 @@ BugReports: https://github.com/datacamp/dbconnectr/issues
 Description: Fetch credentials from AWS automatically when you connect to one of DataCamp's databases.
 License: MIT + file LICENSE
 LazyData: TRUE
-Depends: R (>= 3.0.0)
+Depends:
+    R (>= 3.0.0),
+    DBI
 Imports:
-    DBI,
     jsonlite,
     pool,
     yaml,
