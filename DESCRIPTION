@@ -1,7 +1,7 @@
 Package: dbconnectr
 Type: Package
 Title: Fetch credentials on the fly as you connect to databases
-Version: 0.0.4
+Version: 0.0.5
 Author: Dieter De Mesmaeker
 Maintainer: Filip Schouwenaars <filip@datacamp.com>
 URL: http://www.datacamp.com

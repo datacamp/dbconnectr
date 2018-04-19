@@ -1,3 +1,9 @@
+# dbconnectr 0.0.5
+
+* Offer redshift as an alternative, using the Postgres driver
+* DBI is now in DEPENDS rather than IMPORTS
+* Allow passing ... to `create_connection` (and `create_connection_pool`) to pass additional parameters to `dbConnect` (or to `dbPool`).
+
 # dbconnectr 0.0.4
 
 * Added a `NEWS.md` file to track changes to the package.

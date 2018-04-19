@@ -3,23 +3,26 @@
 #' @param dbname character string specifying the database you want to connect to. Use \code{\link{get_databases}} to get a list of available databases.
 #' @param cache boolean that specifies whether or not to fetch and store the credentials in a local cache.
 #' @param cache_folder if caching is enabled, where to store and fetch the credentials
+#' @param ... Extra arguments passed to \code{\link[DBI]{dbConnect}} or \code{\link[pool]{dbPool}}
+#'
 #' @name create_connection
 
 
 #' @rdname create_connection
 #' @export
 #' @importFrom DBI dbConnect
-create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp") {
+create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp", ...) {
   creds <- get_creds(dbname, cache, cache_folder)
-  do.call(DBI::dbConnect, transform_creds(creds))
+
+  do.call(DBI::dbConnect, c(transform_creds(creds), list(...)))
 }
 
 #' @rdname create_connection
 #' @export
 #' @importFrom pool dbPool
-create_connection_pool <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp") {
+create_connection_pool <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp", ...) {
   creds <- get_creds(dbname, cache, cache_folder)
-  do.call(pool::dbPool, transform_creds(creds))
+  do.call(pool::dbPool, c(transform_creds(creds), list(...)))
 }
 
 #' Get a list of all databases.
