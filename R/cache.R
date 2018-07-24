@@ -1,6 +1,8 @@
 cache_ttl_hours <- 24
 
 get_cache_file <- function(cache_folder, dbname) {
+  # replace / with - in filename
+  dbname <- gsub("\\/", "-", dbname)
   file.path(cache_folder, paste0(dbname, ".yml"))
 }
 

@@ -1,3 +1,7 @@
+# dbconnectr 0.0.5.9000
+
+* Turn slashes into hypens in a db cache file (supports tiered access, for which parameters can contain "/").
+
 # dbconnectr 0.0.5
 
 * Offer redshift as an alternative, using the Postgres driver
