@@ -31,10 +31,19 @@ fetch_creds <- function(dbname = "main-app") {
     fields <- c(fields, dbname = "database")
   }
 
-  creds <- lapply(fields, function(field) {
-    name <- sprintf("/dbconnect/%s/%s", dbname, field)
-    get_parameter(name)
-  })
+  names <- paste("/dbconnect", dbname, fields, sep = "/")
+
+  creds <- get_parameters(names)[["Parameters"]]
+
+  if (length(creds) == 0) {
+    stop("Credentials for DB ", dbname, " not found")
+  }
+
+  # return as a list, named according to the above fields
+  field_values <- as.list(creds$Value[match(names, creds$Name)])
+  names(field_values) <- names(fields)
+
+  field_values
 }
 
 transform_creds <- function(creds) {
