@@ -1,6 +1,8 @@
-# dbconnectr 0.0.5.9000
+# dbconnectr 0.0.6
 
-* Turn slashes into hypens in a db cache file (supports tiered access, for which parameters can contain "/").
+* Set David Robinson as maintainer
+* Turn slashes into hyphens when saving a connection cache file (supports tiered access, in which parameters can contain "/")
+* Changed `get_creds` to get all parameters from AWS in one query
 
 # dbconnectr 0.0.5
 

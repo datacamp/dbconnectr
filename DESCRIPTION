@@ -1,9 +1,11 @@
 Package: dbconnectr
 Type: Package
-Title: Fetch credentials on the fly as you connect to databases
-Version: 0.0.5.9000
-Author: Dieter De Mesmaeker
-Maintainer: Filip Schouwenaars <filip@datacamp.com>
+Title: Fetch credentials on the fly as you Connect to Databases
+Version: 0.0.6
+Authors@R: c(person("David", "Robinson", email = "drob@datacamp.com", role = c("aut", "cre")),
+             person("Filip", "Schouwenaars", email = "filip@datacamp", role = c("aut")),
+             person("Dieter", "De Mesmaeker", role = c("aut")))
+Maintainer: David Robinson <drob@datacamp.com>
 URL: http://www.datacamp.com
 BugReports: https://github.com/datacamp/dbconnectr/issues
 Description: Fetch credentials from AWS automatically when you connect to one of DataCamp's databases.
