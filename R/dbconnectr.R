@@ -3,6 +3,8 @@
 #' @param dbname character string specifying the database you want to connect to. Use \code{\link{get_databases}} to get a list of available databases.
 #' @param cache boolean that specifies whether or not to fetch and store the credentials in a local cache.
 #' @param cache_folder if caching is enabled, where to store and fetch the credentials
+#' @param profile AWS profile to use to fetch the credentials
+#' @param region AWS region to use to fetch the credentials
 #' @param ... Extra arguments passed to \code{\link[DBI]{dbConnect}} or \code{\link[pool]{dbPool}}
 #'
 #' @name create_connection
@@ -11,8 +13,11 @@
 #' @rdname create_connection
 #' @export
 #' @importFrom DBI dbConnect
-create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp", ...) {
-  creds <- get_creds(dbname, cache, cache_folder)
+create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp",
+                              profile = NULL,
+                              region = NULL,
+                              ...) {
+  creds <- get_creds(dbname, cache, cache_folder, profile = profile, region = region)
 
   do.call(DBI::dbConnect, c(transform_creds(creds), list(...)))
 }
@@ -20,8 +25,11 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
 #' @rdname create_connection
 #' @export
 #' @importFrom pool dbPool
-create_connection_pool <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp", ...) {
-  creds <- get_creds(dbname, cache, cache_folder)
+create_connection_pool <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp",
+                                   profile = NULL,
+                                   region = NULL,
+                                   ...) {
+  creds <- get_creds(dbname, cache, cache_folder, profile = profile, region = region)
   do.call(pool::dbPool, c(transform_creds(creds), list(...)))
 }
 

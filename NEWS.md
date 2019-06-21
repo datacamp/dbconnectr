@@ -1,3 +1,7 @@
+# dbconnectr 0.0.6.9000
+
+* Added profile and region arguments to create_connection, which are then given to AWS when fetching the parameters.
+
 # dbconnectr 0.0.6
 
 * Set David Robinson as maintainer

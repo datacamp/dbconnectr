@@ -6,10 +6,10 @@
 \title{Create a DBI or pool connection to a database.}
 \usage{
 create_connection(dbname = "main-app", cache = FALSE,
-  cache_folder = "~/.datacamp", ...)
+  cache_folder = "~/.datacamp", profile = NULL, region = NULL, ...)
 
 create_connection_pool(dbname = "main-app", cache = FALSE,
-  cache_folder = "~/.datacamp", ...)
+  cache_folder = "~/.datacamp", profile = NULL, region = NULL, ...)
 }
 \arguments{
 \item{dbname}{character string specifying the database you want to connect to. Use \code{\link{get_databases}} to get a list of available databases.}
@@ -17,6 +17,10 @@ create_connection_pool(dbname = "main-app", cache = FALSE,
 \item{cache}{boolean that specifies whether or not to fetch and store the credentials in a local cache.}
 
 \item{cache_folder}{if caching is enabled, where to store and fetch the credentials}
+
+\item{profile}{AWS profile to use to fetch the credentials}
+
+\item{region}{AWS region to use to fetch the credentials}
 
 \item{...}{Extra arguments passed to \code{\link[DBI]{dbConnect}} or \code{\link[pool]{dbPool}}}
 }

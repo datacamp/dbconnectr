@@ -3,16 +3,17 @@
 #' @param dbname character string specifying the database you want to get the credentials for. Use \code{\link{get_databases}} to get a list of available databases.
 #' @param cache boolean that specifies whether or not to fetch and store the credentials in a local cache.
 #' @param cache_folder if caching is enabled, where to store and fetch the credentials
+#' @param ... Extra arguments passed to aws, such as \code{profile} or \code{region}
 #'
 #' @return list with credentials for specified database
 #' @export
-get_creds <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp") {
+get_creds <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.datacamp", ...) {
   creds <- NULL
   if (cache) {
     creds <- get_cached_creds(cache_folder, dbname)
   }
   if (is.null(creds)) {
-    creds <- fetch_creds(dbname)
+    creds <- fetch_creds(dbname, ...)
     # only cache when not cached before
     if (cache) {
       cache_creds(creds, cache_folder, dbname)
@@ -21,7 +22,7 @@ get_creds <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.dat
   return(creds)
 }
 
-fetch_creds <- function(dbname = "main-app") {
+fetch_creds <- function(dbname = "main-app", ...) {
   # athena needs a different set of parameters
   # May be worth having a database-level parameter that lists all the parameters
   fields <- c(user = "user", password = "password", host = "endpoint", port = "port", drv = "type")
@@ -33,7 +34,7 @@ fetch_creds <- function(dbname = "main-app") {
 
   names <- paste("/dbconnect", dbname, fields, sep = "/")
 
-  creds <- get_parameters(names)[["Parameters"]]
+  creds <- get_parameters(names, ...)[["Parameters"]]
 
   if (length(creds) == 0) {
     stop("Credentials for DB ", dbname, " not found")

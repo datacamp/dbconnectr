@@ -5,7 +5,7 @@
 \title{Get credentials}
 \usage{
 get_creds(dbname = "main-app", cache = FALSE,
-  cache_folder = "~/.datacamp")
+  cache_folder = "~/.datacamp", ...)
 }
 \arguments{
 \item{dbname}{character string specifying the database you want to get the credentials for. Use \code{\link{get_databases}} to get a list of available databases.}
@@ -13,6 +13,8 @@ get_creds(dbname = "main-app", cache = FALSE,
 \item{cache}{boolean that specifies whether or not to fetch and store the credentials in a local cache.}
 
 \item{cache_folder}{if caching is enabled, where to store and fetch the credentials}
+
+\item{...}{Extra arguments passed to aws, such as \code{profile} or \code{region}}
 }
 \value{
 list with credentials for specified database
