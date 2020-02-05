@@ -47,3 +47,29 @@ get_parameters <- function(names, ...) {
   resp <- system2("aws", args = c("ssm", "get-parameters", "--with-decryption", "--names", names, additional_args), stdout = TRUE)
   fromJSON(paste(resp, collapse = "\n"))
 }
+
+
+aws_get_caller_identity <- function(){
+  cmd <- 'aws'
+  args <- c('--profile', 'dbconnect', 'sts', 'get-caller-identity')
+  identity <- system2(cmd, args, stdout = TRUE)
+  jsonlite::fromJSON(identity)
+}
+
+aws_get_user <- function(){
+  identity <- aws_get_caller_identity()
+  strsplit(identity$UserId, "\\:")[[1]][2]
+}
+
+aws_get_credentials <- function(user){
+  user <- aws_get_user()
+  cmd <- 'aws'
+  args <- c(
+    '--profile', 'dbconnect',  'redshift', 'get-cluster-credentials',
+    '--cluster-identifier', 'datalake-redshift-public-prod',
+    '--db-user', user, '--auto-create', '--db-groups',  'iam',
+    'readonlyusers'
+  )
+  creds <- system2(cmd, args, stdout = TRUE)
+  jsonlite::fromJSON(creds)
+}
