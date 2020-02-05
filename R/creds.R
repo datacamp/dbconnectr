@@ -44,7 +44,11 @@ fetch_creds <- function(dbname = "main-app", ...) {
   field_values <- as.list(creds$Value[match(names, creds$Name)])
   names(field_values) <- names(fields)
 
-  field_values
+  creds_user <- aws_get_credentials()
+  field_values$user <- creds_user$DbUser
+  field_values$password <- creds_user$DbPassword
+
+  return(field_values)
 }
 
 transform_creds <- function(creds) {

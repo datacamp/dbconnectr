@@ -20,9 +20,6 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
   creds <- get_creds(
     dbname, cache, cache_folder, profile = profile, region = region
   )
-  creds_user <- aws_get_credentials()
-  creds$user <- creds_user$DbUser
-  creds$password <- creds_user$DbPassword
   do.call(DBI::dbConnect, c(transform_creds(creds), list(...)))
 }
 
