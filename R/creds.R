@@ -43,12 +43,22 @@ fetch_creds <- function(dbname = "main-app", ...) {
   # return as a list, named according to the above fields
   field_values <- as.list(creds$Value[match(names, creds$Name)])
   names(field_values) <- names(fields)
+  is_ecs <- function(){
+    Sys.getenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI") != ""
+  }
+  is_shiny <- function(){
+    Sys.getenv("SHINY_SERVER") != ""
+  }
 
-  creds_user <- aws_get_credentials()
-  field_values$user <- creds_user$DbUser
-  field_values$password <- creds_user$DbPassword
+  if (is_ecs() || is_shiny()){
+    field_values
+  } else {
+    creds_user <- aws_get_credentials()
+    field_values$user <- creds_user$DbUser
+    field_values$password <- creds_user$DbPassword
 
-  return(field_values)
+    field_values
+  }
 }
 
 transform_creds <- function(creds) {
