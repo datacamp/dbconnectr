@@ -17,21 +17,9 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
                               profile = NULL,
                               region = NULL,
                               ...) {
-  creds <- get_creds(
-    dbname, cache, cache_folder, profile = profile, region = region
-  )
-  tryCatch(
-    do.call(DBI::dbConnect, c(transform_creds(creds), list(...))),
-    error = function(e){
-      error_token_expired <- "IAM Authentication token has expired"
-      if (grepl(error_token_expired, e)){
-        message("Deleting expired credentials from cache")
-        file.remove(get_cache_file(cache_folder, dbname))
-        message("Retrying connection to database ", dbname)
-        create_connection(dbname, cache, cache_folder, profile, region, ...)
-      }
-    }
-  )
+  creds <- get_creds(dbname, cache, cache_folder, profile = profile, region = region)
+
+  do.call(DBI::dbConnect, c(transform_creds(creds), list(...)))
 }
 
 #' @rdname create_connection
@@ -66,4 +54,3 @@ get_docs <- function(dbname = "main-app", open = TRUE) {
   if (open) browseURL(url)
   invisible(url)
 }
-
