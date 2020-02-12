@@ -23,6 +23,7 @@ get_creds <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.dat
 }
 
 fetch_creds <- function(dbname = "main-app", ...) {
+  print("Fetching credentials...")
   # athena needs a different set of parameters
   # May be worth having a database-level parameter that lists all the parameters
   fields <- c(user = "user", password = "password", host = "endpoint", port = "port", drv = "type")
