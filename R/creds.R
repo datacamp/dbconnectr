@@ -44,6 +44,9 @@ fetch_creds <- function(dbname = "main-app", ...) {
   field_values <- as.list(creds$Value[match(names, creds$Name)])
   names(field_values) <- names(fields)
 
+  if (Sys.getenv("DOCKER_DASHBOARDS") == 1){
+    field_values  
+  }
   if (Sys.getenv("SHINY_SERVER") == "" || Sys.getenv("AIRFLOW") == ""){
     creds_user <- aws_get_credentials()
     field_values$user <- creds_user$DbUser
