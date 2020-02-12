@@ -45,9 +45,12 @@ fetch_creds <- function(dbname = "main-app", ...) {
   names(field_values) <- names(fields)
 
   if (Sys.getenv("DOCKER_DASHBOARDS") == 1){
-    field_values  
+    print("Running Dashboards, so using global creds")
+    field_values
+
   }
-  if (Sys.getenv("SHINY_SERVER") == "" || Sys.getenv("AIRFLOW") == ""){
+  else if (Sys.getenv("SHINY_SERVER") == "" || Sys.getenv("AIRFLOW") == ""){
+    print("Running locally, so using personal creds")
     creds_user <- aws_get_credentials()
     field_values$user <- creds_user$DbUser
     field_values$password <- creds_user$DbPassword
