@@ -23,7 +23,8 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
     do.call(DBI::dbConnect, c(transform_creds(creds), list(...))),
     error = function(e){
       error_token_expired <- "IAM Authentication token has expired"
-      if (grepl(error_token_expired, e)){
+      error_onload_failed <- ".onLoad failed in loadNamespace()"
+      if (grepl(error_token_expired, e) || grepl(error_onload_failed, e)){
         message("Deleting expired credentials from cache")
         file.remove(get_cache_file(cache_folder, dbname))
         message("Retrying connection to database ", dbname)
