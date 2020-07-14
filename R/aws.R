@@ -67,7 +67,7 @@ aws_get_credentials <- function(user){
     '--profile', 'dbconnect',  'redshift', 'get-cluster-credentials',
     '--cluster-identifier', 'datalake-redshift-public-prod',
     '--db-user', user, '--auto-create', '--db-groups',  'iam',
-    'readonlyusers'
+    'readonly_dbconnect'
   )
   creds <- system2(cmd, args, stdout = TRUE)
   jsonlite::fromJSON(creds)
