@@ -22,15 +22,17 @@ get_creds <- function(dbname = "main-app", cache = FALSE, cache_folder = "~/.dat
   return(creds)
 }
 
+cred_fields <- c(user = "user", password = "password", host = "endpoint", port = "port", drv = "type")
+
 fetch_creds <- function(dbname = "main-app", ...) {
   print("Fetching credentials...")
   # athena needs a different set of parameters
   # May be worth having a database-level parameter that lists all the parameters
-  fields <- c(user = "user", password = "password", host = "endpoint", port = "port", drv = "type")
+
   if (stringr::str_detect(dbname, "athena")) {
-    fields <- c(fields, s3_staging = "s3-staging")
+    fields <- c(cred_fields, s3_staging = "s3-staging")
   } else {
-    fields <- c(fields, dbname = "database")
+    fields <- c(cred_fields, dbname = "database")
   }
 
   names <- paste("/dbconnect", dbname, fields, sep = "/")
@@ -57,6 +59,25 @@ fetch_creds <- function(dbname = "main-app", ...) {
   }
 
   field_values
+}
+
+get_env_overwrite <- function(key, value) {
+  # Don't overwrite the "drv" field
+  if (key == "drv") {
+    return(value)
+  }
+
+  # Use cred_fields list to create environment variable (e.g. DBCONNECT_ENDPOINT)
+  env_variable <- tryCatch(
+    paste0("DBCONNECT_", toupper(cred_fields[[key]])),
+    error=function(...) NULL
+  )
+  if (is.null(env_variable)) {
+    return(value)
+  }
+
+  # Get the environment variable, fallback on value
+  Sys.getenv(env_variable, value)
 }
 
 transform_creds <- function(creds) {
@@ -87,5 +108,6 @@ transform_creds <- function(creds) {
   }
 
   creds[["drv"]] <- drv
-  creds
+
+  mapply(get_env_overwrite, names(creds), creds)
 }
