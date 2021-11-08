@@ -18,6 +18,7 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
                               region = NULL,
                               ...) {
   creds <- get_creds(dbname, cache, cache_folder, profile = profile, region = region)
+  creds$host <- 'redshift-prod.datacamp.com'
 
   tryCatch(
     do.call(DBI::dbConnect, c(transform_creds(creds), list(...))),
