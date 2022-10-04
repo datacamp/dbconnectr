@@ -17,22 +17,31 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
                               profile = NULL,
                               region = NULL,
                               ...) {
-  creds <- get_creds(dbname, cache, cache_folder, profile = profile, region = region)
-  creds$host <- 'datalake-redshift-public-prod.us-east-1.internal.datacamp.com'
+  if(dbname == "bigquery-prod"){
+    DBI::dbConnect(bigrquery::bigquery(),
+                   project = "datacamp-data-platform")
+    #if (dir.exists("/app/")){
+    #  bigrquery::bq_auth(path = "/app/creds/service_account.json")
+    #}
+  }
+  else{
+    creds <- get_creds(dbname, cache, cache_folder, profile = profile, region = region)
+    creds$host <- 'datalake-redshift-public-prod.us-east-1.internal.datacamp.com'
 
-  tryCatch(
-    do.call(DBI::dbConnect, c(transform_creds(creds), list(...))),
-    error = function(e){
-      error_token_expired <- "IAM Authentication token has expired"
-      error_onload_failed <- ".onLoad failed in loadNamespace()"
-      if (grepl(error_token_expired, e) || grepl(error_onload_failed, e)){
-        message("Deleting expired credentials from cache")
-        file.remove(get_cache_file(cache_folder, dbname))
-        message("Retrying connection to database ", dbname)
-        create_connection(dbname, cache, cache_folder, profile, region, ...)
+    tryCatch(
+      do.call(DBI::dbConnect, c(transform_creds(creds), list(...))),
+      error = function(e){
+        error_token_expired <- "IAM Authentication token has expired"
+        error_onload_failed <- ".onLoad failed in loadNamespace()"
+        if (grepl(error_token_expired, e) || grepl(error_onload_failed, e)){
+          message("Deleting expired credentials from cache")
+          file.remove(get_cache_file(cache_folder, dbname))
+          message("Retrying connection to database ", dbname)
+          create_connection(dbname, cache, cache_folder, profile, region, ...)
+        }
       }
-    }
-  )
+    )
+  }
 }
 
 #' @rdname create_connection

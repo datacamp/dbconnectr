@@ -21,7 +21,8 @@ Imports:
     stringr,
     RMariaDB,
     RPostgres,
-    odbc
+    odbc,
+    bigrquery
 Suggests:
     testthat,
     knitr
