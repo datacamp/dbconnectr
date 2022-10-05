@@ -11,6 +11,7 @@ URL: http://www.datacamp.com
 BugReports: https://github.com/datacamp/dbconnectr/issues
 Description: Fetch credentials from AWS automatically when you connect to one of DataCamp's databases.
 License: MIT + file LICENSE
+Encoding: UTF-8
 LazyData: TRUE
 Depends:
     R (>= 3.0.0),
@@ -27,5 +28,5 @@ Imports:
 Suggests:
     testthat,
     knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.0
 VignetteBuilder: knitr

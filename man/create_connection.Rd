@@ -5,11 +5,23 @@
 \alias{create_connection_pool}
 \title{Create a DBI or pool connection to a database.}
 \usage{
-create_connection(dbname = "main-app", cache = FALSE,
-  cache_folder = "~/.datacamp", profile = NULL, region = NULL, ...)
+create_connection(
+  dbname = "main-app",
+  cache = FALSE,
+  cache_folder = "~/.datacamp",
+  profile = NULL,
+  region = NULL,
+  ...
+)
 
-create_connection_pool(dbname = "main-app", cache = FALSE,
-  cache_folder = "~/.datacamp", profile = NULL, region = NULL, ...)
+create_connection_pool(
+  dbname = "main-app",
+  cache = FALSE,
+  cache_folder = "~/.datacamp",
+  profile = NULL,
+  region = NULL,
+  ...
+)
 }
 \arguments{
 \item{dbname}{character string specifying the database you want to connect to. Use \code{\link{get_databases}} to get a list of available databases.}
