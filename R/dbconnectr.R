@@ -20,9 +20,9 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
   if(dbname == "bigquery-prod"){
     DBI::dbConnect(bigrquery::bigquery(),
                    project = "datacamp-data-platform")
-    #if (dir.exists("/app/")){
-    #  bigrquery::bq_auth(path = "/app/creds/service_account.json")
-    #}
+    if (dir.exists("/app/")){
+      bigrquery::bq_auth(path = "../sa_gcp_key.json")
+    }
   }
   else{
     creds <- get_creds(dbname, cache, cache_folder, profile = profile, region = region)
