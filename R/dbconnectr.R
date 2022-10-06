@@ -18,11 +18,11 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
                               region = NULL,
                               ...) {
   if(dbname == "bigquery-prod"){
-    DBI::dbConnect(bigrquery::bigquery(),
-                   project = "datacamp-data-platform")
     if (Sys.getenv("SHINY_SERVER") == "1" && Sys.getenv("AIRFLOW") == "1"){
       bigrquery::bq_auth(path = "../sa_gcp_key.json")
     }
+    DBI::dbConnect(bigrquery::bigquery(),
+                   project = "datacamp-data-platform")
   }
   else{
     creds <- get_creds(dbname, cache, cache_folder, profile = profile, region = region)
