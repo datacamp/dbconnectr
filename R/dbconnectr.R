@@ -19,10 +19,22 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
                               ...) {
   if(dbname == "bigquery-prod"){
     if (Sys.getenv("SHINY_SERVER") == "1" && Sys.getenv("AIRFLOW") == "1"){
-      bigrquery::bq_auth(path = "../sa_gcp_key.json")
+      auth <- bigrquery::bq_auth(path = "../sa_gcp_key.json")
     }
-    DBI::dbConnect(bigrquery::bigquery(),
-                   project = "datacamp-data-platform")
+    tryCatch(
+      do.call(DBI::dbConnect, list(drv = bigrquery::bigquery(),
+                                   project = "datacamp-data-platform")),
+      error = function(e){
+        error_token_expired <- "IAM Authentication token has expired"
+        error_onload_failed <- ".onLoad failed in loadNamespace()"
+        if (grepl(error_token_expired, e) || grepl(error_onload_failed, e)){
+          message("Deleting expired credentials from cache")
+          file.remove(get_cache_file(cache_folder, dbname))
+          message("Retrying connection to database ", dbname)
+          create_connection(dbname, cache, cache_folder, profile, region, ...)
+        }
+      }
+    )
   }
   else{
     creds <- get_creds(dbname, cache, cache_folder, profile = profile, region = region)
