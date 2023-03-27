@@ -20,6 +20,9 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
   if(dbname == "bigquery-prod"){
     if (Sys.getenv("SHINY_SERVER") == "1" && Sys.getenv("AIRFLOW") == "1"){
       auth <- bigrquery::bq_auth(path = "../sa_gcp_key.json")
+    } else if (Sys.getenv("DOCKER_DASHBOARDS") == "1") {
+      resp <- get_parameter(Sys.getenv("GCP_AUTH"))
+      auth <- bigrquery::bq_auth(path = resp)
     } else {
       google_app <- httr::oauth_app(
         "Datacampr",
