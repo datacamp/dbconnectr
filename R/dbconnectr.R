@@ -33,7 +33,8 @@ create_connection <- function(dbname = "main-app", cache = FALSE, cache_folder =
     }
     tryCatch(
       do.call(DBI::dbConnect, list(drv = bigrquery::bigquery(),
-                                   project = "datacamp-data-platform")),
+                                   project = "datacamp-data-platform", 
+                                   page_size = 2500)),
       error = function(e){
         error_token_expired <- "IAM Authentication token has expired"
         error_onload_failed <- ".onLoad failed in loadNamespace()"
