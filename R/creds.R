@@ -47,7 +47,7 @@ fetch_creds <- function(dbname = "main-app", ...) {
   field_values <- as.list(creds$Value[match(names, creds$Name)])
   names(field_values) <- names(fields)
 
-  if (Sys.getenv("DOCKER_DASHBOARDS") == 1){
+  if (Sys.getenv("DOCKER_DASHBOARDS") == "1"){
     print("Running Dashboards, so using global creds")
     field_values
 

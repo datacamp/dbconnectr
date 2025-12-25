@@ -4,8 +4,12 @@
 \alias{get_creds}
 \title{Get credentials}
 \usage{
-get_creds(dbname = "main-app", cache = FALSE,
-  cache_folder = "~/.datacamp", ...)
+get_creds(
+  dbname = "main-app",
+  cache = FALSE,
+  cache_folder = "~/.datacamp",
+  ...
+)
 }
 \arguments{
 \item{dbname}{character string specifying the database you want to get the credentials for. Use \code{\link{get_databases}} to get a list of available databases.}
